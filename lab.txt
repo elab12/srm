@@ -1,0 +1,1728 @@
+Experiment 1:
+=====================================================================
+
+AIM: To install Operating system and study of Basic Linux commands.
+Program
+Basic Linux Commands
+Basics
+echo SRM: to display the string SRM
+clear: to clear the screen
+date: to display the current date and time
+cal 2022: to display the calendar for the year 2022
+cal 6 2022: to display the calendar for the June-2022
+passwd: to change password
+Working with Files
+ls: list files in the present working directory
+ls –l: list files with detailed information (long list)
+ls –a: list all files including the hidden files
+cat > f1: to create a file (Press ^d to finish typing)
+cat f1: display the content of the file f1
+wc f1: list no. of characters, words & lines of a file
+ wc –c f1: list only no. of characters of file
+ wc –w f1: list only no. of words of file f1
+wc –l f1: list only no. of lines of file f1
+cp f1 f2: copy file f1 into f2
+mv f1 f2: rename file f1 as f2
+rm f1: remove the file f1
+head –5 f1: list first 5 lines of the file f1
+tail –5 f1: list last 5 lines of the file f1
+Working with Directories
+mkdirelias: to create the directory elias
+cd elias: to change the directory as elias
+rmdirelias: to remove the directory elias
+pwd: to display the path of the present working directory
+cd: to go to the home directory
+cd ..: to go to the parent directory
+cd -: to go to the previous working directory
+cd /: to go to the root directory
+File name substitution
+ls f?: list files start with ‘f’ and followed by any one character
+ls *.c:  list files with extension ‘c’
+ls [gpy]et: list files whose first letter is any one of the character g, p or y and followed by the word et
+ls [a-d,l-m]ring: list files whose first letter is any one of the character from a to d and l to m and followed by the word ring.
+Piping
+Syntax: 	Command1 | command2
+Output of the command1 is transferred to the command2 as input. Finally output of the command2 will be displayed on the monitor.
+ex. cat f1 | more: list the contents of file f1 screen by screen
+head –6 f1 |tail –2: prints the 5th& 6th lines of the file f1.
+8. File Permission
+-- chmod command is used to change the access permission of a file.
+u : user, g : group, o : others
++ : Add permission   - : Remove the permission r : read, w : write, x : execute, a : all permissions
+ex. 	chmodug+rw f1
+adding ‘read & write’ permissions of file f1 to both user and group members.
+Method-2
+Syntax :	 chmodoctnum file1
+The 3 digit octal number is represented as follows
+first digit 	-- file permissions for the user
+second digit 	-- file permissions for the group
+third digit 	-- file permissions for others
+Each digit is specified as the sum of following
+4 – read permission,  2 – write permission,  1 – execute permission
+ex. chmod 754 f1
+it change the file permission for the file as follows
+read, write & execute permissions for the user ie; 4+2+1 = 7
+read, & execute permissions for the group members ie; 4+0+1 = 5
+only read permission for others 	ie; 4+0+0 = 4
+Lab 2: Process Creation using fork() and Usage of getpid(), getppid(), wait() functions
+Syntax for process creation
+int fork();
+Returns 0 in child process and child process ID in parent process.
+Other Related Functions
+intgetpid()        returns the current process ID
+intgetppid()      returns the parent process ID
+wait()                makes a process wait for other process to complete
+Virtual fork
+vfork() function is similar to fork but both processes shares the same address space.
+Q1. Find the output of the following program
+#include <stdio.h>
+#include<unistd.h>
+int main()
+{
+int a=5,b=10,pid;
+printf("Before fork a=%d b=%d \n",a,b); pid=fork();
+if(pid==0)
+{
+a=a+1; b=b+1;
+printf("In child a=%d b=%d \n",a,b);
+}
+else
+{
+sleep(1); a=a-1; b=b-1;
+printf("In Parent a=%d b=%d \n",a,b);
+}
+return 0;
+}
+Output:
+Result: Program successfully studied.
+
+
+Experiment 2:
+============================================================================
+
+AIM:Write a program  of process creation using fork() and usage of getpid(),getppid(),wait() fuction.
+Program:
+ Calculate the number of times the text “SRMIST” is printed.
+#include
+<stdio.h> #include<unistd.h>
+int main()
+{
+fork(); 	fork();
+fork();
+printf(“SRMIST\n”);
+return 0;
+}
+Output:
+ How many child processes are created for the following code?
+#include <stdio.h>
+#include<unistd.h>
+intmain()
+{ fork();
+fork()&&fork()||fork();
+fork();
+printf(“Yes ”);  return 0;
+}
+Output:
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+int main( )
+{
+int pid;
+pid=fork( );
+if(pid== -1)
+{
+perror("fork failed");
+exit(0);
+}
+if(pid==0)
+{
+printf("\nChild process is under execution");
+printf("\nProcess id of the child process is %d", getpid());
+printf("\nProcess id of the parent process is %d", getppid());
+}
+else
+{
+printf("\nParent process is under execution");
+printf("\nProcess id of the parent process is %d", getpid());
+printf("\nProcess id of the parent of parent is %d", getppid());
+}
+return(0);
+}
+Output:
+Output-Program successfully executed.
+
+
+Experiment 3:
+=============================
+
+AIM: Write a  program of multithreading
+Program:
+: Multithreading
+ C++ program to demonstrate
+ multithreading using three
+ different callables.
+#include <iostream>
+#include <thread>
+using namespace std;
+ A dummy function
+void foo(int Z)
+{
+for (int i = 0; i < Z; i++)
+{
+	cout << "Thread using function"
+			" pointer as callable\n";
+}
+}
+ A callable object
+class thread_obj {
+public:
+	void operator()(int x)
+	{
+	for (int i = 0; i < x; i++)
+		cout << "Thread using function"
+				" object as callable\n";
+	}
+};
+ Driver code
+int main()
+{
+cout << "Threads 1 and 2 and 3 "
+		"operating independently" << endl;
+ This thread is launched by using
+ function pointer as callable
+thread th1(foo, 3);
+ This thread is launched by using
+ function object as callable
+thread th2(thread_obj(), 3);
+ Define a Lambda Expression
+auto f = [](int x)
+{
+	for (int i = 0; i < x; i++)
+	cout << "Thread using lambda"
+			" expression as callable\n";
+};
+ This thread is launched by using
+ lambda expression as callable
+thread th3(f, 3);
+ Wait for the threads to finish
+ Wait for thread t1 to finish
+th1.join();
+ Wait for thread t2 to finish
+th2.join();
+ Wait for thread t3 to finish
+th3.join();
+return 0;
+}
+OUT PUT
+Threads 1 and 2 and 3 operating independently
+Thread using function pointer as callable
+Thread using function pointer as callable
+Thread using function pointer as callable
+Thread using function object as callable
+Thread using function object as callable
+Thread using function object as callable
+Thread using lambda expression as callable
+Thread using lambda expression as callable
+Thread using lambda expression as callable
+Output-Program successfully executed.
+
+
+Experiment 4:
+===========================================================
+
+AIM: Write a program of Mutual Exclusion using semaphore and monitor
+Program:
+USING SEMAPHORE
+const int Delayx = 60;
+int i;
+int restroom = 0;
+int Menwaiting = 0;
+int Womenwaiting = 0;
+semaphore max_capacity;
+semaphore woman;
+semaphore man;
+semaphore mutex;
+semaphore restroomcount;
+void Delay(void)
+{
+    int DelayTime;
+    DelayTime = random(Delayx);
+    for (i = 0; i<DelayTime; i++);
+}
+void Woman(void)
+{
+  for(;;){
+    Womenwaiting++;
+    wait(mutex);
+    wait(woman);
+    wait(max_capacity);
+        wait(woman);
+        wait(mutex);
+        wait(restroomcount);
+        cout << "A Woman has entered Restroom"<<endl;
+        cout << "People in the Restroom:" << restroom++ <<endl <<endl;
+        signal(restroomcount);
+        Womenwaiting--;
+        Delay();
+        wait(restroomcount);
+        cout << "A woman has exited Restroom"<<endl;
+        cout << "People in the Restroom:" << restroom-- <<endl<<endl;
+        signal(restroomcount);
+        signal(mutex);
+        signal(max_capacity);
+        if(Menwaiting > Womenwaiting){
+              signal(man);
+                  }
+              else{
+            signal(woman);
+        }
+        signal(max_capacity);
+    signal(man);
+  }
+}
+void Man(void)
+{
+  for(;;){
+    Menwaiting++;
+    wait(mutex);
+    wait(man);
+    wait(max_capacity);
+    wait(man);
+        wait(mutex);
+        wait(restroomcount);
+        cout <<"A Man has entered the Restroom"<<endl;
+        cout <<"People in the Restroom:" << restroom++ <<endl<<endl;
+        signal(restroomcount);
+        Menwaiting--;
+        signal(mutex);
+        Delay();
+        wait(mutex);
+        wait(restroomcount);
+        cout << "A man has exited the Restroom"<<endl;
+        cout <<"People in the Restroom:" << restroom-- <<endl<<endl;
+        signal(restroomcount);
+        signal(mutex);
+        signal(max_capacity);
+        if(Womenwaiting > Menwaiting){
+            signal(woman);
+            }
+        else{
+            signal(man);
+            }
+        signal(max_capacity);
+        signal(woman);
+}
+}
+void main()
+{
+    initialsem(woman,1);
+    initialsem(man,1);
+    initialsem(max_capacity,4);
+    initialsem(mutex,1);
+    initialsem(restroomcount,1);
+    cobegin
+    {
+        Woman(); Woman(); Woman(); Woman(); Woman(); Man();  Man(); Man(); Man(); Man();
+    }
+}
+This generates the following output:
+A Man has entered the Restroom
+People in the Restroom:1
+A man has exited the Restroom
+People in the Restroom:0
+A Man has entered the Restroom
+People in the Restroom:1
+A man has exited the Restroom
+People in the Restroom:0
+A Woman has entered Restroom
+People in the Restroom:1
+A woman has exited Restroom
+People in the Restroom:0
+A Woman has entered Restroom
+People in the Restroom:1
+A woman has exited Restroom
+People in the Restroom:0
+USING MONITOR
+include <iostream>
+#include <mutex>
+#include <condition_variable>
+#include <thread>
+class NinjaMonitor {
+public:
+     Constructor to initialize the shared resource and synchronization variables
+    NinjaMonitor() : SharedResource(0) {}
+     Method to access the shared resource
+    int AccessSharedResource() {
+        std::unique_lock<std::mutex> lock(mtx_);
+        while (SharedResource == 0) {
+            CondVar.wait(lock);
+        }
+        int value = SharedResource;
+        SharedResource = 0;
+        return value;
+    }
+     Method to update the shared resource
+    void UpdateSharedResource(int new_value) {
+        std::unique_lock<std::mutex> lock(mtx_);
+        SharedResource = new_value;
+        CondVar.notify_one();
+    }
+private:
+    int SharedResource;
+    std::mutex mtx_;
+    std::condition_variable CondVar;
+};
+Function that uses the monitor to access the shared resource
+void NinjaThread(NinjaMonitor& monitor) {
+    int value = monitor.AccessSharedResource();
+    std::cout << "Ninja thread read shared resource: " << value << std::endl;
+}
+int main() {
+    NinjaMonitor monitor;
+    std::thread t(NinjaThread, std::ref(monitor));
+     Update the shared resource after some time
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    monitor.UpdateSharedResource(67);
+    t.join();
+    return 0;
+}
+USING MONITOR
+#include <iostream>
+#include <mutex>
+#include <condition_variable>
+#include <thread>
+class NinjaMonitor {
+public:
+     Constructor to initialize the shared resource and synchronization variables
+    NinjaMonitor() : SharedResource(0) {}
+     Method to access the shared resource
+    int AccessSharedResource() {
+        std::unique_lock<std::mutex> lock(mtx_);
+        while (SharedResource == 0) {
+            CondVar.wait(lock);
+        }
+        int value = SharedResource;
+        SharedResource = 0;
+        return value;
+    }
+     Method to update the shared resource
+    void UpdateSharedResource(int new_value) {
+        std::unique_lock<std::mutex> lock(mtx_);
+        SharedResource = new_value;
+        CondVar.notify_one();
+    }
+private:
+    int SharedResource;
+    std::mutex mtx_;
+    std::condition_variable CondVar;
+};
+ Function that uses the monitor to access the shared resource
+void NinjaThread(NinjaMonitor& monitor) {
+    int value = monitor.AccessSharedResource();
+    std::cout << "Ninja thread read shared resource: " << value << std::endl;
+}
+int main() {
+    NinjaMonitor monitor;
+    std::thread t(NinjaThread, std::ref(monitor));
+     Update the shared resource after some time
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    monitor.UpdateSharedResource(67);
+    t.join();
+    return 0;
+}
+Output: Program successfully executed.
+
+
+Experiment 5:
+====================================
+
+AIM:Write a program of  Reader-Writer problem
+Using Semaphores :-
+Here, readers have higher priority than writer. If a writer wants to write to the resource, it must wait until there are no readers currently accessing that resource.
+Here, we use :-
+one mutex m and a semaphore w.
+An integer variable read_count :- used to maintain the number of readers currently accessing the resource. The variable read_count is initialized to 0.
+A value of 1 is given initially to m and w.
+Instead of having the process to acquire lock on the shared resource, we use the mutex m to make the process to acquire and release lock whenever it is updating the read_count variable.
+a. Writer Process :
+Writer requests the entry to critical section.
+If allowed i.e. wait() gives a true value, it enters and performs the write. If not allowed, it keeps on waiting.
+It exits the critical section.
+  while(TRUE)
+      {
+        wait(w);
+        /* perform the write operation */
+        signal(w);
+      }
+b. Reader Process :
+Reader requests the entry to critical section.
+If allowed:
+i. it increments the count of number of readers inside the critical section. If this reader is the first reader entering, it locks the w semaphore to restrict the entry of writers if any reader is inside.
+ii.It then, signals mutex as any other reader is allowed to enter while others are already reading.
+iii. After performing reading, it exits the critical section. When exiting, it checks if no more reader is inside, it signals the semaphore w as now, writer can enter the critical section.
+If not allowed, it keeps on waiting.
+while(TRUE)
+          {
+          acquire lock
+          wait(m);
+          read_count++;
+          if(read_count == 1)
+                wait(w);
+          release lock
+          signal(m);
+          /* perform the reading operation */
+          acquire lock
+          wait(m);
+          read_count--;
+          if(read_count == 0)
+               signal(w);
+           release lock
+          signal(m);
+          }
+Thus, the semaphore w is queued on both readers and writers in a manner such that preference is given to readers if writers are also there. Thus, no reader is waiting simply because a writer has requested to enter the critical section.
+Output: Program successfully executed.
+
+
+Experiment 6:
+=========================================
+
+AIM: Write a program of Dining Philosopher problem
+Algorithm –
+monitor ForkMonitor:
+integer array[0..4]
+fork ← [2,2,2,2,2]
+condition array[0..4]OKtoEat
+operation takeForks(integer i)
+if(fork[i]!=2)
+waitC(OKtoEat[i])
+fork[i+1]<- fork[i+1]-1
+fork[i-1] <- fork[i-1]-1
+operation releaseForks(integer i)
+fork[i+1] <- fork[i+1]+1
+fork[i-1] <- fork[i-1]
+if(fork[i+1]==2)
+signalC(OKtoEat[i+1])
+if(fork[i-1]==2)
+signalC(OKtoEat[i-1])
+For each Philosopher –
+ loop forever :
+     p1 : think
+     p2 : takeForks(i)
+     p3 : eat
+     p4 : releaseForks(i)
+Here Monitor will ensure all such needs mentioned above.
+Implementation in C++ :
+ Header file include
+#include <bits/stdc++.h>
+#include <pthread.h>
+#include <unistd.h>
+using namespace std;
+#define N 10
+#define THINKING 2
+#define HUNGRY 1
+#define EATING 0
+#define LEFT (phnum + 4) % N
+#define RIGHT (phnum + 1) % N
+ Philosopher index
+int phil[N];
+int times = 200;
+class monitor {
+	 state of the philosopher
+	int state[N];
+	 Philosopher condition variable
+	pthread_cond_t phcond[N];
+	 mutex variable for synchronization
+	pthread_mutex_t condLock;
+public:
+	 Test for the desired condition
+	 i.e. Left and Right philosopher are not reading
+	void test(int phnum)
+	{
+		if (state[(phnum + 1) % 5] != EATING
+			and state[(phnum + 4) % 5] != EATING
+			and state[phnum] == HUNGRY) {
+			state[phnum] = EATING;
+			pthread_cond_signal(&phcond[phnum]);
+		}
+	}
+	 Take Fork function
+	void take_fork(int phnum)
+	{
+		pthread_mutex_lock(&condLock);
+		 Indicates it is hungry
+		state[phnum] = HUNGRY;
+		 test for condition
+		test(phnum);
+		 If unable to eat.. wait for the signal
+		if (state[phnum] != EATING) {
+			pthread_cond_wait(&phcond[phnum], &condLock);
+		}
+		cout << "Philosopher " << phnum << " is Eating"
+			<< endl;
+		pthread_mutex_unlock(&condLock);
+	}
+	 Put Fork function
+	void put_fork(int phnum)
+	{
+		pthread_mutex_lock(&condLock);
+		 Indicates that I am thinking
+		state[phnum] = THINKING;
+		test(RIGHT);
+		test(LEFT);
+		pthread_mutex_unlock(&condLock);
+	}
+	 constructor
+	monitor()
+	{
+		for (int i = 0; i < N; i++) {
+			state[i] = THINKING;
+		}
+		for (int i = 0; i < N; i++) {
+			pthread_cond_init(&phcond[i], NULL);
+		}
+		pthread_mutex_init(&condLock, NULL);
+	}
+	 destructor
+	~monitor()
+	{
+		for (int i = 0; i < N; i++) {
+			pthread_cond_destroy(&phcond[i]);
+		}
+		pthread_mutex_destroy(&condLock);
+	}
+}
+// Global Object of the monitor
+phil_object;
+void* philosopher(void* arg)
+{
+	int c = 0;
+	while (c < times) {
+		int i = *(int*)arg;
+		sleep(1);
+		phil_object.take_fork(i);
+		sleep(0.5);
+		phil_object.put_fork(i);
+		c++;
+	}
+}
+int main()
+{
+	 Declaration...
+	pthread_t thread_id[N];
+	pthread_attr_t attr;
+	 Initialization...
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr,
+	PTHREAD_CREATE_JOINABLE);
+	for (int i = 0; i < N; i++) {
+		phil[i] = i;
+	}
+	 Creating...
+	for (int i = 0; i < N; i++) {
+		pthread_create(&thread_id[i], &attr, philosopher,
+					&phil[i]);
+		cout << "Philosopher " << i + 1 << " is thinking..."
+			<< endl;
+	}
+	 Joining....
+	for (int i = 0; i < N; i++) {
+		pthread_join(thread_id[i], NULL);
+	}
+	 Destroying
+	pthread_attr_destroy(&attr);
+	pthread_exit(NULL);
+	return 0;
+}
+Output :
+Output: Program successfully executed.
+
+
+Experiment 7:
+========================================================
+
+AIM : To impleament Bankers Algorithm for Deadlock avoidance
+BANKER'S ALGORITHM
+The banker's algorithm is a resource allocation and deadlock avoidance algorithm that tests for safety by simulating the allocation for predetermined maximum possible amounts of all resources, then makes an 's-state' check to test for possible activities, before deciding whether allocation should be allowed to continue.
+The Banker's algorithm got its name because it could be used in a banking system to ensure that the bank never allocated its available cash in such a way that it could no longer satisfy the needs of all its
+customers.
+Properties -
+Multiple in
+stances
+Each process must a priori claim maximum use
+When a process requests a resource it may have to wait
+When a process gets all its resources it must return them in a finite amount of time
+CODE :-
+#include<bits/stdc++.h>
+using namespace std;
+int allocation[10][3],need[10][3],Max[10][3],available[10][3];
+int p,current[3];
+bool executed[10],come;
+void IMP(){
+	come=false;
+	for (int i = 0; i < 10; ++i)
+	{
+		executed[i]=false;
+	}
+}
+void Calculate(){
+	IMP();
+	int i,j;
+	for (i = 0; i < p; ++i)
+	{
+		for (j = 0; j < p; ++j)
+		{
+			while(executed[j] && j<p-1){
+				j++;
+			}
+			if (need[j][0]<=current[0]&&need[j][1]<=current[1]&&need[j][2]<=current[2])
+			{
+				if (!executed[j])
+				{
+					executed[j]=true;
+					current[0]+=allocation[j][0];current[1]+=allocation[j][1];current[2]+=allocation[j][2];
+					cout<<"\nProcess P"<<j+1;
+					cout<<"\nCurrent: "<<current[0]<<" "<<current[1]<<" "<<current[2]<<"\n";
+					cout<<"\nProcess executed without deadlock";
+					come=true;
+					break;
+				}
+			}
+		}
+		if (!come)
+		{
+			cout<<"\n			Dead lock\n\n";
+			break;
+		}else{
+			come=false;
+		}
+	}
+}
+int main (){
+	int keepon = 1;
+	cout<<"Enter No. of processes: ";
+	cin>>p;
+	cout<<"\n";
+	cout<<"Enter the current resources: ";
+	cin>>current[0]>>current[1]>>current[2];
+	for (int i = 0; i < p; ++i)
+	{
+		cout<<"\n\n			Process P"<<i+1<<" Details\n";
+		cout<<"Enter Allocation : ";
+		cin>>allocation[i][0]>>allocation[i][1]>>allocation[i][2];
+		cout<<"Enter Max :";
+		cin>>Max[i][0]>>Max[i][1]>>Max[i][2];
+		need[i][0]=Max[i][0]-allocation[i][0];need[i][1]=Max[i][1]-allocation[i][1];need[i][2]=Max[i][2]-allocation[i][2];
+	}
+	cout<<"\n\n			Table for Bankers Algo\n\n";
+	cout<<"Initial Resources: "<<current[0]<<" "<<current[1]<<" "<<current[2]<<"\n\n";
+	cout<<"Process    Max    Allocation    Need\n";
+	for (int i = 0; i < p; ++i)
+	{
+		cout<<"  P"<<i+1<<"    ";
+		cout<<"  "<<Max[i][0]<<" "<<Max[i][1]<<" "<<Max[i][2]<<"     ";
+		cout<<" "<<allocation[i][0]<<" "<<allocation[i][1]<<" "<<allocation[i][2]<<"     ";
+		cout<<" "<<need[i][0]<<" "<<need[i][1]<<" "<<need[i][2];
+		cout<<"\n";
+	}
+	cout<<"\n\n";
+	Calculate();
+	while(keepon){
+		int val,pro;
+		cout<<"\n\nSelect Below oprations:\n\n";
+		cout<<"1.Change Max of process: \n";
+		cout<<"2.Change Allocation of process\n";
+		cout<<"3.Change Initial Resources\n";
+		cout<<"4.Exit\n\n";
+		cin>>val;
+		if (val==1)
+		{
+			cout<<"\n\nEnter Process No: ";
+			cin>>pro;
+			cout<<"\nEnter New Max: ";
+			cin>>Max[pro-1][0]>>Max[pro-1][1]>>Max[pro-1][2];
+		}
+		else if (val==2)
+		{
+			cout<<"\n\nEnter Process No: ";
+			cin>>pro;
+			cout<<"\nEnter New Allocation: ";
+			cin>>allocation[pro-1][0]>>allocation[pro-1][1]>>allocation[pro-1][2];
+		}
+		else if (val==3)
+		{
+			cout<<"\nEnter Initial Resources: ";
+			cin>>current[0]>>current[1]>>current[2];
+		}
+		else{
+			break;
+		}
+		Calculate();
+	}
+	return 0
+Output: Program successfully executed.
+
+
+Experiment 8:
+======================================
+
+AIM: Write a program of FCFS and SJF Scheduling
+ALGO FCFS
+1-  Input the processes along with their burst time (bt).
+2-  Find waiting time (wt) for all processes.
+3-  As first process that comes need not to wait so
+    waiting time for process 1 will be 0 i.e. wt[0] = 0.
+4-  Find waiting time for all other processes i.e. for
+     process i ->
+       wt[i] = bt[i-1] + wt[i-1] .
+5-  Find turnaround time = waiting_time + burst_time
+    for all processes.
+6-  Find average waiting time =
+                 total_waiting_time / no_of_processes.
+7-  Similarly, find average turnaround time =
+                 total_turn_around_time / no_of_processes.
+PROGRAM
+#include<iostream>
+using namespace std;
+void findWaitingTime(int processes[], int n,
+int bt[], int wt[])
+{
+	wt[0] = 0;
+	for (int i = 1; i < n ; i++ )
+		wt[i] = bt[i-1] + wt[i-1] ;
+}
+void findTurnAroundTime( int processes[], int n,
+				int bt[], int wt[], int tat[])
+{
+	 bt[i] + wt[i]
+	for (int i = 0; i < n ; i++)
+		tat[i] = bt[i] + wt[i];
+}
+void findavgTime( int processes[], int n, int bt[])
+{
+	int wt[n], tat[n], total_wt = 0, total_tat = 0;
+	Function to find waiting time of all processes
+	findWaitingTime(processes, n, bt, wt);
+	Function to find turn around time for all processes
+	findTurnAroundTime(processes, n, bt, wt, tat);
+	Display processes along with all details
+	cout << "Processes "<< " Burst time "
+		<< " Waiting time " << " Turn around time\n";
+	 Calculate total waiting time and total turn
+	 around time
+	for (int i=0; i<n; i++)
+	{
+		total_wt = total_wt + wt[i];
+		total_tat = total_tat + tat[i];
+		cout << " " << i+1 << "\t\t" << bt[i] <<"\t "
+			<< wt[i] <<"\t\t " << tat[i] <<endl;
+	}
+	cout << "Average waiting time = "
+		<< (float)total_wt / (float)n;
+	cout << "\nAverage turn around time = "
+		<< (float)total_tat / (float)n;
+}
+ Driver code
+int main()
+{
+	process id's
+	int processes[] = { 1, 2, 3};
+	int n = sizeof processes / sizeof processes[0];
+	Burst time of all processes
+	int burst_time[] = {10, 5, 8};
+	findavgTime(processes, n, burst_time);
+	return 0;
+}
+OUT PUT
+Processes  Burst time  Waiting time  Turn around time    //The Output is Wrong please correct it
+ 1        10     0         10
+ 2        5     10         15
+ 3        8     15         23
+Average waiting time = 8.33333
+Average turn around time = 16
+ALGO SJF
+the steps to perform the SJF scheduling program in c.
+Firstly, we will begin the procedure.
+After that, we will Consider the number of elements to be inserted.
+Then, we will choose the process with the shortest burst time and will execute the first process.
+We will check that if both processes have the same burst time length then the FCFS scheduling algorithm is used.
+We will make the average waiting time for the next process.
+We will begin with the first process, make the above selection, and place the other processes in a queue.
+We will calculate burst time.
+We will display the values that are related.
+In the end, we will stop the process.
+Likewise, we will run all the steps until all the processes are executed.
+PROGRAM
+Output:
+Result: Program successfully executed.
+
+
+Experiment 9:
+==================================================
+
+AIM: Write a program of Priority and Round robin scheduling
+PRIORITY SCHEDULING
+#include<iostream>
+using namespace std;
+int main()
+{
+    int bt[20],p[20],wt[20],tat[20],pr[20],i,j,n,total=0,pos,temp,avg_wt,avg_tat;
+    cout<<"Enter Total Number of Process:";
+    cin>>n;
+    cout<<"\nEnter Burst Time and Priority\n";
+    for(i=0;i<n;i++)
+    {
+        cout<<"\nP["<<i+1<<"]\n";
+        cout<<"Burst Time:";
+        cin>>bt[i];
+        cout<<"Priority:";
+        cin>>pr[i];
+        p[i]=i+1;           contains process number
+    }
+    sorting burst time, priority and process number in ascending order using selection sort
+    for(i=0;i<n;i++)
+    {
+        pos=i;
+        for(j=i+1;j<n;j++)
+        {
+            if(pr[j]<pr[pos])
+                pos=j;
+        }
+        temp=pr[i];
+        pr[i]=pr[pos];
+        pr[pos]=temp;
+        temp=bt[i];
+        bt[i]=bt[pos];
+        bt[pos]=temp;
+        temp=p[i];
+        p[i]=p[pos];
+        p[pos]=temp;
+    }
+    wt[0]=0;            //waiting time for first process is zero
+    calculate waiting time
+    for(i=1;i<n;i++)
+    {
+        wt[i]=0;
+        for(j=0;j<i;j++)
+            wt[i]+=bt[j];
+        total+=wt[i];
+    }
+    avg_wt=total/n;      //average waiting time
+    total=0;
+    cout<<"\nProcess\t    Burst Time    \tWaiting Time\tTurnaround Time";
+    for(i=0;i<n;i++)
+    {
+        tat[i]=bt[i]+wt[i];     //calculate turnaround time
+        total+=tat[i];
+        cout<<"\nP["<<p[i]<<"]\t\t  "<<bt[i]<<"\t\t    "<<wt[i]<<"\t\t\t"<<tat[i];
+    }
+    avg_tat=total/n;     //average turnaround time
+    cout<<"\n\nAverage Waiting Time="<<avg_wt;
+    cout<<"\nAverage Turnaround Time="<<avg_tat;
+    return 0;
+Result: Program successfully executed.
+
+
+Experiment 10:
+===============================================
+
+AIM: Write a program of FIFO Page Replacement Algorithm
+Algorithm for FIFO Page Replacement
+Step 1. Start to traverse the pages.
+Step 2. If the memory holds fewer pages, then the capacity else goes to step 5.
+Step 3. Push pages in the queue one at a time until the queue reaches its maximum capacity or all page requests are fulfilled.
+Step 4. If the current page is present in the memory, do nothing.
+Step 5. Else, pop the topmost page from the queue as it was inserted first.
+Step 6. Replace the topmost page with the current page from the string.
+Step 7. Increment the page faults.
+Step 8. Stop
+PROGRAM
+ C program for FIFO page replacement algorithm
+#include<stdio.h>
+int main()
+{
+    int incomingStream[] = {4, 1, 2, 4, 5};
+    int pageFaults = 0;
+    int frames = 3;
+    int m, n, s, pages;
+    pages = sizeof(incomingStream)/sizeof(incomingStream[0]);
+    printf("Incoming \t Frame 1 \t Frame 2 \t Frame 3");
+    int temp[frames];
+    for(m = 0; m < frames; m++)
+    {
+        temp[m] = -1;
+    }
+    for(m = 0; m < pages; m++)
+    {
+        s = 0;
+        for(n = 0; n < frames; n++)
+        {
+            if(incomingStream[m] == temp[n])
+            {
+                s++;
+                pageFaults--;
+            }
+        }
+        pageFaults++;
+        if((pageFaults <= frames) && (s == 0))
+        {
+            temp[m] = incomingStream[m];
+        }
+        else if(s == 0)
+        {
+            temp[(pageFaults - 1) % frames] = incomingStream[m];
+        }
+        printf("\n");
+        printf("%d\t\t\t",incomingStream[m]);
+        for(n = 0; n < frames; n++)
+        {
+            if(temp[n] != -1)
+                printf(" %d\t\t\t", temp[n]);
+            else
+                printf(" - \t\t\t");
+        }
+    }
+    printf("\nTotal Page Faults:\t%d\n", pageFaults);
+    return 0;
+}
+Output –
+Incoming Frame 1 Frame 2 Frame 3
+4         4       -      -
+1         4       1      -
+2         4       1      2
+4         4       1      2
+5         5       1      2
+Total Page Faults: 4
+Lab 11: LRU and LFU Page Replacement Algorithm
+#include<stdio.h>
+#include<limits.h>
+int checkHit(int incomingPage, int queue[], int occupied){
+    for(int i = 0; i < occupied; i++){
+        if(incomingPage == queue[i])
+            return 1;
+    }
+    return 0;
+}
+void printFrame(int queue[], int occupied)
+{
+    for(int i = 0; i < occupied; i++)
+        printf("%d\t\t\t",queue[i]);
+}
+int main()
+{
+    int incomingStream[] = {7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1};
+    int incomingStream[] = {1, 2, 3, 2, 1, 5, 2, 1, 6, 2, 5, 6, 3, 1, 3, 6, 1, 2, 4, 3};
+    int incomingStream[] = {1, 2, 3, 2, 1, 5, 2, 1, 6, 2, 5, 6, 3, 1, 3};
+    int n = sizeof(incomingStream)/sizeof(incomingStream[0]);
+    int frames = 3;
+    int queue[n];
+    int distance[n];
+    int occupied = 0;
+    int pagefault = 0;
+    printf("Page\t Frame1 \t Frame2 \t Frame3\n");
+    for(int i = 0;i < n; i++)
+    {
+        printf("%d:  \t\t",incomingStream[i]);
+         what if currently in frame 7
+         next item that appears also 7
+         didnt write condition for HIT
+        if(checkHit(incomingStream[i], queue, occupied)){
+            printFrame(queue, occupied);
+        }
+         filling when frame(s) is/are empty
+        else if(occupied < frames){
+            queue[occupied] = incomingStream[i];
+            pagefault++;
+            occupied++;
+            printFrame(queue, occupied);
+        }
+        else{
+            int max = INT_MIN;
+            int index;
+             get LRU distance for each item in frame
+            for (int j = 0; j < frames; j++)
+            {
+                distance[j] = 0;
+                 traverse in reverse direction to find
+                 at what distance  frame item occurred last
+                for(int k = i - 1; k >= 0; k--)
+                {
+                    ++distance[j];
+                    if(queue[j] == incomingStream[k])
+                        break;
+                }
+                 find frame item with max distance for LRU
+                 also notes the index of frame item in queue
+                 which appears furthest(max distance)
+                if(distance[j] > max){
+                    max = distance[j];
+                    index = j;
+                }
+            }
+            queue[index] = incomingStream[i];
+            printFrame(queue, occupied);
+            pagefault++;
+        }
+        printf("\n");
+    }
+    printf("Page Fault: %d",pagefault);
+    return 0;
+Result: Program successfully executed.
+
+
+Experiment 11:
+======================================================
+
+AIM: LRU and LFU Page Replacement Algorithm
+Program:
+#include<stdio.h>
+#include<limits.h>
+int checkHit(int incomingPage, int queue[], int occupied){
+    for(int i = 0; i < occupied; i++){
+        if(incomingPage == queue[i])
+            return 1;
+    }
+    return 0;
+}
+void printFrame(int queue[], int occupied)
+{
+    for(int i = 0; i < occupied; i++)
+        printf("%d\t\t\t",queue[i]);
+}
+int main()
+{
+    int incomingStream[] = {7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1};
+    int incomingStream[] = {1, 2, 3, 2, 1, 5, 2, 1, 6, 2, 5, 6, 3, 1, 3, 6, 1, 2, 4, 3};
+    int incomingStream[] = {1, 2, 3, 2, 1, 5, 2, 1, 6, 2, 5, 6, 3, 1, 3};
+    int n = sizeof(incomingStream)/sizeof(incomingStream[0]);
+    int frames = 3;
+    int queue[n];
+    int distance[n];
+    int occupied = 0;
+    int pagefault = 0;
+    printf("Page\t Frame1 \t Frame2 \t Frame3\n");
+    for(int i = 0;i < n; i++)
+    {
+        printf("%d:  \t\t",incomingStream[i]);
+         what if currently in frame 7
+         next item that appears also 7
+         didnt write condition for HIT
+        if(checkHit(incomingStream[i], queue, occupied)){
+            printFrame(queue, occupied);
+        }
+         filling when frame(s) is/are empty
+        else if(occupied < frames){
+            queue[occupied] = incomingStream[i];
+            pagefault++;
+            occupied++;
+            printFrame(queue, occupied);
+        }
+        else{
+            int max = INT_MIN;
+            int index;
+             get LRU distance for each item in frame
+            for (int j = 0; j < frames; j++)
+            {
+                distance[j] = 0;
+                 traverse in reverse direction to find
+                 at what distance  frame item occurred last
+                for(int k = i - 1; k >= 0; k--)
+                {
+                    ++distance[j];
+                    if(queue[j] == incomingStream[k])
+                        break;
+                }
+                 find frame item with max distance for LRU
+                 also notes the index of frame item in queue
+                 which appears furthest(max distance)
+                if(distance[j] > max){
+                    max = distance[j];
+                    index = j;
+                }
+            }
+            queue[index] = incomingStream[i];
+            printFrame(queue, occupied);
+            pagefault++;
+        }
+        printf("\n");
+    }
+    printf("Page Fault: %d",pagefault);
+    return 0;
+}
+OUTPUT
+Page	 Frame1 	 Frame2 	 Frame3
+1:  	1
+2:  	1		2
+3:  	1		2		3
+2:  	1		2		3
+1:  	1		2		3
+5:  	1		2		5
+2:  	1		2		5
+1:  	1		2		5
+6:  	1		2		6
+2:  	1		2		6
+5:  	5		2		6
+6:  	5		2		6
+3:  	5		3		6
+1:  	1		3		6
+3:  	1		3		6
+Page Fault: 8
+
+
+Experiment 12:
+========================================================
+
+AIM : Write a program of Best fit and Worst fit memory management policies
+BEST FIT
+#include <stdio.h>
+void implimentBestFit(int blockSize[], int blocks, int processSize[], int proccesses)
+{
+     This will store the block id of the allocated block to a process
+    int allocation[proccesses];
+    int occupied[blocks];
+    initially assigning -1 to all allocation indexes
+     means nothing is allocated currently
+    for(int i = 0; i < proccesses; i++){
+        allocation[i] = -1;
+    }
+    for(int i = 0; i < blocks; i++){
+        occupied[i] = 0;
+    }
+     pick each process and find suitable blocks
+     according to its size ad assign to it
+    for (int i = 0; i < proccesses; i++)
+    {
+        int indexPlaced = -1;
+        for (int j = 0; j < blocks; j++) {
+            if (blockSize[j] >= processSize[i] && !occupied[j])
+            {
+               place it at the first block fit to accomodate process
+                if (indexPlaced == -1)
+                    indexPlaced = j;
+                 if any future block is smalller than the current block where
+                 process is placed, change the block and thus indexPlaced
+		// this reduces the wastage thus best fit
+                else if (blockSize[j] < blockSize[indexPlaced])
+                    indexPlaced = j;
+            }
+        }
+         If we were successfully able to find block for the process
+        if (indexPlaced != -1)
+        {
+             allocate this block j to process p[i]
+            allocation[i] = indexPlaced;
+             make the status of the block as occupied
+            occupied[indexPlaced] = 1;
+        }
+    }
+    printf("\nProcess No.\tProcess Size\tBlock no.\n");
+    for (int i = 0; i < proccesses; i++)
+    {
+        printf("%d \t\t\t %d \t\t\t", i+1, processSize[i]);
+        if (allocation[i] != -1)
+            printf("%d\n",allocation[i] + 1);
+        else
+            printf("Not Allocated\n");
+    }
+}
+ Driver code
+int main()
+{
+    int blockSize[] = {100, 50, 30, 120, 35};
+    int processSize[] = {40, 10, 30, 60};
+    int blocks = sizeof(blockSize)/sizeof(blockSize[0]);
+    int proccesses = sizeof(processSize)/sizeof(processSize[0]);
+    implimentBestFit(blockSize, blocks, processSize, proccesses);
+    return 0 ;
+OUTPUT
+Process No.	Process Size	Block no.
+1 		10 		2
+2 		30 		1
+3 		60 		4
+4 		30 		4
+WORST FIT
+#include <stdio.h>
+void implimentWorstFit(int blockSize[], int blocks, int processSize[], int processes)
+{
+     This will store the block id of the allocated block to a process
+    int allocation[processes];
+    int occupied[blocks];
+     initially assigning -1 to all allocation indexes
+     means nothing is allocated currently
+    for(int i = 0; i < processes; i++){
+        allocation[i] = -1;
+    }
+    for(int i = 0; i < blocks; i++){
+        occupied[i] = 0;
+    }
+     pick each process and find suitable blocks
+     according to its size ad assign to it
+    for (int i=0; i < processes; i++)
+    {
+	int indexPlaced = -1;
+	for(int j = 0; j < blocks; j++)
+	{
+	     if not occupied and block size is large enough
+	    if(blockSize[j] >= processSize[i] && !occupied[j])
+            {
+                 place it at the first block fit to accomodate process
+                if (indexPlaced == -1)
+                    indexPlaced = j;
+                 if any future block is larger than the current block where
+                 process is placed, change the block and thus indexPlaced
+                else if (blockSize[indexPlaced] < blockSize[j])
+                    indexPlaced = j;
+            }
+        }
+         If we were successfully able to find block for the process
+        if (indexPlaced != -1)
+        {
+             allocate this block j to process p[i]
+            allocation[i] = indexPlaced;
+             make the status of the block as occupied
+            occupied[indexPlaced] = 1;
+             Reduce available memory for the block
+            blockSize[indexPlaced] -= processSize[i];
+        }
+    }
+    printf("\nProcess No.\tProcess Size\tBlock no.\n");
+    for (int i = 0; i < processes; i++)
+    {
+        printf("%d \t\t\t %d \t\t\t", i+1, processSize[i]);
+        if (allocation[i] != -1)
+            printf("%d\n",allocation[i] + 1);
+        else
+            printf("Not Allocated\n");
+    }
+}
+ Driver code
+int main()
+{
+    int blockSize[] = {100, 50, 30, 120, 35};
+    int processSize[] = {40, 10, 30, 60};
+    int blocks = sizeof(blockSize)/sizeof(blockSize[0]);
+    int processes = sizeof(processSize)/sizeof(processSize[0]);
+    implimentWorstFit(blockSize, blocks, processSize, processes);
+    return 0;
+}
+Output
+Process No.	Process Size	Block no.
+1 		40 		4
+2 		10 		1
+3 		30 		2
+4 		60 		Not Allocated
+Result: Program successfully executed.
+
+
+Experiment 13:
+=========================================
+
+AIM:Write  a program of  Disk Scheduling algorithm
+first come first serve disk scheduling:-
+FCFS is the simplest of all the Disk Scheduling Algorithms. In FCFS, the requests are addressed in the order they arrive in the disk queue. Example: Given the following queue -- 95, 180, 34, 119, 11, 123, 62, 64 with the Read-write head initially at the track 50 and the tail track being at 199.
+#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+    int RQ[100],i,n,TotalHeadMoment=0,initial;
+    printf("Enter the number of Requests\n");
+    scanf("%d",&n);
+    printf("Enter the Requests sequence\n");
+    for(i=0;i<n;i++)
+     scanf("%d",&RQ[i]);
+    printf("Enter initial head position\n");
+    scanf("%d",&initial);
+     logic for FCFS disk scheduling
+    for(i=0;i<n;i++)
+    {
+        TotalHeadMoment=TotalHeadMoment+abs(RQ[i]-initial);
+        initial=RQ[i];
+    }
+    printf("Total head moment is %d",TotalHeadMoment);
+    return 0;
+}
+OUTPUT
+Enter the number of Request
+8
+Enter the Requests Sequence
+95 180 34 119 11 123 62 64
+Enter initial head position
+50
+Total head movement is 644
+Scan/ Elevator disk scheduling:-
+ It is also called as Elevator Algorithm. In this algorithm, the disk arm moves into a particular direction till the end, satisfying all the requests coming in its path, and then it turns backend moves in the reverse direction satisfying requests coming in its path.
+It works in the way an elevator works, elevator moves in a direction completely till the last floor of that direction and then turns back.
+Example:-  Given the following queue -- 95, 180, 34, 119, 11, 123, 62, 64 with the Read-write head initially at the track 50 and the tail track being at 199. head movement is towards low value.
+#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+    int RQ[100],i,j,n,TotalHeadMoment=0,initial,size,move;
+    printf("Enter the number of Requests\n");
+    scanf("%d",&n);
+    printf("Enter the Requests sequence\n");
+    for(i=0;i<n;i++)
+     scanf("%d",&RQ[i]);
+    printf("Enter initial head position\n");
+    scanf("%d",&initial);
+    printf("Enter total disk size\n");
+    scanf("%d",&size);
+    printf("Enter the head movement direction for high 1 and for low 0\n");
+    scanf("%d",&move);
+     logic for Scan disk scheduling
+        /*logic for sort the request array */
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n-i-1;j++)
+        {
+            if(RQ[j]>RQ[j+1])
+            {
+                int temp;
+                temp=RQ[j];
+                RQ[j]=RQ[j+1];
+                RQ[j+1]=temp;
+            }
+        }
+    }
+    int index;
+    for(i=0;i<n;i++)
+    {
+        if(initial<RQ[i])
+        {
+            index=i;
+            break;
+        }
+    }
+     if movement is towards high value
+    if(move==1)
+    {
+        for(i=index;i<n;i++)
+        {
+            TotalHeadMoment=TotalHeadMoment+abs(RQ[i]-initial);
+            initial=RQ[i];
+        }
+          last movement for max size
+        TotalHeadMoment=TotalHeadMoment+abs(size-RQ[i-1]-1);
+        initial = size-1;
+        for(i=index-1;i>=0;i--)
+        {
+             TotalHeadMoment=TotalHeadMoment+abs(RQ[i]-initial);
+             initial=RQ[i];
+        }
+    }
+     if movement is towards low value
+    else
+    {
+        for(i=index-1;i>=0;i--)
+        {
+            TotalHeadMoment=TotalHeadMoment+abs(RQ[i]-initial);
+            initial=RQ[i];
+        }
+          last movement for min size
+        TotalHeadMoment=TotalHeadMoment+abs(RQ[i+1]-0);
+        initial =0;
+        for(i=index;i<n;i++)
+        {
+             TotalHeadMoment=TotalHeadMoment+abs(RQ[i]-initial);
+             initial=RQ[i];
+        }
+    }
+    printf("Total head movement is %d",TotalHeadMoment);
+    return 0;
+}
+Output:-
+Enter the number of Request
+8
+Enter the Requests Sequence
+95 180 34 119 11 123 62 64
+Enter initial head position
+50
+Enter total disk size
+200
+Enter the head movement direction for high 1 and for low 0
+1
+Total head movement is 337
+
+Output: Program successfully executed.
+
+
+Experiment 14:
+======================================================
+
+AIM : Write a program of Sequential and Indexed file Allocation
+Algorithm for Indexed File Allocation:
+Step 1: Start.
+Step 2: Let n be the size of the buffer
+Step 3: check if there are any producer
+Step 4: if yes check whether the buffer is full
+Step 5: If no the producer item is stored in the buffer
+Step 6: If the buffer is full the producer has to wait
+Step 7: Check there is any consumer. If yes check whether the buffer is empty
+Step 8: If no the consumer consumes them from the buffer
+Step 9: If the buffer is empty, the consumer has to wait.
+Step 10: Repeat checking for the producer and consumer till required
+Step 11: Terminate the process.
+/* Program to simulate indexed file allocation strategy */
+Program Code:
+#include<stdio.h>
+#include<conio.h>
+ #include<stdlib.h>
+void main()
+{
+int f[50], index[50],i, n, st, len, j, c, k, ind,count=0;
+clrscr();
+for(i=0;i<50;i++)
+f[i]=0;
+x:printf("Enter the index block: ");
+scanf("%d",&ind);
+if(f[ind]!=1)
+{
+printf("Enter no of blocks needed and no of files for the index %d on the disk : \n", ind);
+scanf("%d",&n);
+}
+else
+{
+printf("%d index is already allocated \n",ind);
+goto x;
+}
+y: count=0;
+for(i=0;i<n;i++)
+{
+scanf("%d", &index[i]);
+if(f[index[i]]==0)
+count++;
+}
+if(count==n)
+{
+for(j=0;j<n;j++)
+f[index[j]]=1;
+printf("Allocated\n");
+printf("File Indexed\n");
+for(k=0;k<n;k++)
+printf("%d-------->%d : %d\n",ind,index[k],f[index[k]]);
+}
+else
+{
+printf("File in the index is already allocated \n");
+printf("Enter another file indexed");
+goto y;
+}
+printf("Do you want to enter more file(Yes - 1/No - 0)");
+scanf("%d", &c);
+if(c==1)
+goto x;
+else
+exit(0);
+getch();
+}
+Program Output:
+Enter the index block: 5
+Enter no of blocks needed and no of files for the index 5 on the disk :
+4
+1 2 3 4
+Allocated
+File Indexed
+5-------->1 : 1
+5-------->2 : 1
+5-------->3 : 1
+5-------->4 : 1
+Do you want to enter more file(Yes - 1/No - 0)1
+Enter the index block: 4
+4 index is already allocated
+Enter the index block: 6
+Enter no of blocks needed and no of files for the index 6 on the disk :
+2
+7 8
+A5llocated
+File Indexed
+6-------->7 : 1
+6-------->8 : 1
+Do you want to enter more file(Yes - 1/No - 0)0
+Algorithm for Sequential File Allocation:
+Step 1: Start the program.
+Step 2: Get the number of memory partition and their sizes.
+Step 3: Get the number of processes and values of block size for each process.
+Step 4: First fit algorithm searches all the entire memory block until a hole which is big enough is encountered. It allocates that memory block for the requesting process.
+Step 5: Best-fit algorithm searches the memory blocks for the smallest hole which can be allocated to requesting process and allocates it.
+Step 6: Worst fit algorithm searches the memory blocks for the largest hole and allocates it to the process.
+Step 7: Analyses all the three memory management techniques and display the best algorithm which utilizes the memory resources effectively and efficiently.
+Step 8: Stop the program.
+/* Program to simulate sequential file allocation strategy */
+Program Code:
+#include < stdio.h>
+#include<conio.h>
+void main()
+{
+int f[50], i, st, len, j, c, k, count = 0;
+clrscr();
+for(i=0;i<50;i++)
+f[i]=0;
+printf("Files Allocated are : \n");
+x: count=0;
+printf(“Enter starting block and length of files: ”);
+scanf("%d%d", &st,&len);
+for(k=st;k<(st+len);k++)
+if(f[k]==0)
+count++;
+if(len==count)
+{
+for(j=st;j<(st+len);j++)
+if(f[j]==0)
+{
+f[j]=1;
+printf("%d\t%d\n",j,f[j]);
+}
+if(j!=(st+len-1))
+printf(” The file is allocated to disk\n");
+}
+else
+printf(” The file is not allocated \n");
+printf("Do you want to enter more file(Yes - 1/No - 0)");
+scanf("%d", &c);
+if(c==1)
+goto x;
+else
+exit();
+getch();
+}
+Program Output:
+Files Allocated are :
+Enter starting block and length of files: 14 3
+14 1
+15 1
+16 1
+The file is allocated to disk
+Do you want to enter more file(Yes - 1/No - 0)1
+Enter starting block and length of files: 14 1
+The file is not allocated
+Do you want to enter more file(Yes - 1/No - 0)1
+Enter starting block and length of files: 14 4
+The file is not allocated
+Do you want to enter more file(Yes - 1/No - 0)0
+Output: Program successfully executed.
+VALUE ADDED PROGRAMS
+Program-1
+How to run a Shell Script
+■ Edit and save your program using editor
+■ Add execute permission by chmod command
+■ Run your program using the name of your program
+./program-name
+Important Hints
+No space before and after the assignment operator
+Ex. sum=0
+Single quote ignores all special characters. Dollar sign, Back quote and Back slash are
+not ignored inside Double quote. Back quote is used as command substitution. Back
+slash is used to remove the special meaning of a character.
+Arithmetic expression can be written as follows : i=$((i+1) or i=$(expr
+$i + 1)
+Command line arguments are referred inside the programme as $1, $2, ..and so on
+$* represents all arguments, $# specifies the number of arguments
+read statement is used to get input from input device. Ex. read a b
+Syntax for if statement
+if [ condition ]
+then
+...
+elif [ condition ]
+then
+else
+fi
+...
+...
+Syntax for case structure
+case value in pat1) ...
+pat2) ...
+*)
+...
+esac
+Syntax for for-loop21CSC202J-Operating Systems Lab
+© SRMIST
+- 10 -
+statement;;
+S
+t
+a
+t
+e
+m
+e
+n
+t
+;
+;
+S
+t
+a
+t
+e
+m
+e
+n
+t
+;
+;
+for var in list-of-values
+do
+done
+...
+...
+Syntax for While loop
+while commandt
+do
+done
+...
+...21CSC202J-Operating Systems Lab
+© SRMIST
+- 10 -
+Syntax for printf statement
+printf “string and format” arg1 arg2 … …
+Break and continue statements functions similar to C programming
+Relational operators are
+–lt, -le, -gt, -ge, -eq,-ne
+Ex. (i>= 10) is written as [ $i -ge 10 ]
+Logical operators (and, or, not) are
+-o, -a, !
+Ex. (a>b) && (a>c) is written as [ $a –gt $b –a $a –gt $c ]
+Two strings can be compared using = operator
+Q1. Given the following values
+num=10,
+x=*,
+y=`date`
+a="Hello, 'he sai
+Execute and write the output of the following commands
+Command
+Output
+echo num
+echo $num
+echo $x
+echo ‘$x’
+echo “$x”
+echo $y
+echo $(date)
+echo $a
+echo \$num
+echo \$$num
+Program-2
+Debug C Programs using gdb debugger
+Step 1 : Compile C program with debugging option –g
+Ex.
+gcc –g test.c
+Step 2 : Launch gdb. You will get gdb prompt
+Ex.
+gdb a.out
+Step 3 : Step break points inside C program
+Ex.
+(gdb) b 10
+Break points set up at line number 10. We can have any number of break points
+Step 4 : Run the program inside gdb
+Ex. (gdb) r
+Step 5 : Print variable to get the intermediate values of the variables at break point
+Ex.
+(gdb) p i
+Prints the value of the variable ‘i'
+Step 6 : Continue or stepping over the program using the following gdb commands
+c continue till the next break
+n Execute the next line. Treats function as single statement
+s Similar to ‘n’ but executes function statements line by line
+l List the program statements
+Step 7 : Quit the debugger
+(gdb) q.
